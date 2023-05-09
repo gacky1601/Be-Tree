@@ -96,6 +96,7 @@ public:
   virtual void _serialize(std::iostream &fs, serialization_context &context) = 0;
   virtual void _deserialize(std::iostream &fs, serialization_context &context) = 0;
   virtual ~serializable(void) {};
+  virtual void node_infomation(std::map<uint64_t, uint64_t>* idtobsid) {};
 };
 
 void serialize(std::iostream &fs, serialization_context &context, uint64_t x);
@@ -223,7 +224,7 @@ public:
       }
     }
     
-  private:
+
     void unpin(void) {
       debug(std::cout << "Unpinning " << target
 	    << " (" << ss->objects[target]->target << ")" << std::endl);
@@ -411,7 +412,7 @@ public:
 
   };
   
-private:
+
   backing_store *backstore;  
 
   uint64_t next_id = 1;

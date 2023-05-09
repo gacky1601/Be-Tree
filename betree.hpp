@@ -221,6 +221,21 @@ private:
       return pivots.empty();
     }
 
+    void node_infomation(std::map<uint64_t, uint64_t>* idtobsid)  {
+      std::cout << "pivots: " << pivots.size() << " {  ";
+      for (auto pivot : pivots) {
+        uint64_t id = pivot.second.child.get_pin().target;
+        uint64_t bsid = idtobsid->at(id) == 0 ? pivot.second.child.get_pin().target : idtobsid->at(id);
+        std::cout << pivot.first << " -> " << bsid << "  ";
+      }
+      std::cout << "}\n";
+      std::cout << "elements: " << elements.size() << " {  ";
+      for (auto element : elements) {
+        std::cout << element.first.key << "  ";
+      }
+      std::cout << "}";
+    }
+
     // Holy frick-a-moly.  We want to write a const function that
     // returns a const_iterator when called from a const function and
     // a non-const function that returns a (non-const_)iterator when

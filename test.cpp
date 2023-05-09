@@ -14,6 +14,35 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "betree.hpp"
+using namespace std;
+
+void list_nodes(std::unordered_map <uint64_t, swap_space::object*> objects) {
+
+    map<uint64_t, uint64_t> idtobsid;
+    map<uint64_t, swap_space::object*> temp;
+    for (auto _obj : objects) {
+        temp.insert(_obj);
+    }
+
+    for (auto key : objects)
+        idtobsid.insert(pair<uint64_t, uint64_t>(key.second->id, key.second->bsid));
+
+    for (auto key : temp) {
+        cout << "id: " << key.second->id << "  "
+            << "bsid: " << key.second->bsid << "  "
+            << "drity: " << key.second->target_is_dirty << "  "
+            << "is_leaf: " << key.second->is_leaf << "  "
+            << "address: " << objects[key.second->id]->target << "  ";
+        if (objects[key.second->id]->target != 0) {
+            cout << "\n";
+            cout << "========================================================" << endl;
+            auto* temp_target = (objects[key.second->id]->target);
+            temp_target->node_infomation(&idtobsid);
+        }
+        cout << "\n";
+        cout << "========================================================" << endl;
+    }
+}
 
 void timer_start(uint64_t &timer)
 {
